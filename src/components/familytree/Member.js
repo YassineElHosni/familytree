@@ -1,6 +1,6 @@
 import { Button, Modal, Form } from "react-bootstrap"
 import React, { useState, useEffect } from "react"
-import { database } from "../../firebase"
+import { database } from "../../firebase.ts"
 import SearchInput from "./SearchInput"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowCircleUp, faUserTimes, faArrowCircleDown, faUserEdit } from "@fortawesome/free-solid-svg-icons"

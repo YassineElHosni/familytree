@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { database } from "../../firebase"
+import { database } from "../../firebase.ts"
 import Member from "./Member"
 import AddMemberButton from "./AddMemberButton"
 
@@ -36,14 +36,20 @@ export default function MemberList() {
             else return o
         })
     }
+    const ConvertDBObjects = (dbObjs) => {
+        return Object.entries(dbObjs).reduce((t, o) => (t = [...t, { id: o[0], ...o[1] }]), [])
+    }
     useEffect(() => {
         database.root.on("value", (qs) => {
             let data = qs.val()
-            let m = refactor(data.members)
-            let r = refactor(data.relationships)
+            let m = refactor(data?.members || [])
+            let r = refactor(data?.relationships || [])
             let newM = mWithCh(m, r)
             setMembers(newM)
-            console.log(newM)
+            console.log({
+                members: ConvertDBObjects(data?.members),
+                relationships: ConvertDBObjects(data?.relationships),
+            })
         })
     }, [])
     return (

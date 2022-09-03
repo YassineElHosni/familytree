@@ -1,5 +1,5 @@
 import React from "react"
-import { useCanvas } from "../../hooks/useCanvas"
+import { useCanvas } from "../../hooks/useCanvas.ts"
 
 export default function TreeCanvas() {
     const [coordinates, setCoordinates, canvasRef, canvasWidth, canvasHeight] = useCanvas()
@@ -11,12 +11,12 @@ export default function TreeCanvas() {
         setCoordinates([...coordinates, currentCoord])
     }
     //Get Mouse Position
-    function getMousePos(canvas, evt) {
+    function getMousePos(canvas, event) {
         var rect = canvas.getBoundingClientRect()
-        console.log(rect, evt)
+        console.log("getMousePos - rect & event", rect, event)
         return {
-            x: evt.x - rect.left,
-            y: evt.y - rect.top,
+            x: event.x - rect.left,
+            y: event.y - rect.top,
         }
     }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Button, Form, Modal } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUserPlus, faArrowCircleUp, faArrowCircleDown } from "@fortawesome/free-solid-svg-icons"
-import { database } from "../../firebase"
+import { database } from "../../firebase.ts"
 import SearchInput from "./SearchInput"
 
 export default function AddMemberButton({ members }) {

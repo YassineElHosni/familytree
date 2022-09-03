@@ -139,8 +139,13 @@ button {
 
 /* Canvas style */
 
+.App-main {
+    display: flex;
+    flex-direction: column;
+}
+
 .App-canvas {
-    background-color: rgb(25, 183, 189);
+    background-color: #427f7b;
     border: 5px;
     border-color: black;
 }
