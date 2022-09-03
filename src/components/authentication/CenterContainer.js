@@ -1,12 +1,9 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
+import React from "react"
+import { Container } from "react-bootstrap"
 
-export default function CenterContainer({children}) {
+export default function CenterContainer({ children }) {
     return (
-        <Container
-            className="d-flex align-items-center justify-content-center"
-            style={{ minHeight: "100vh" }}
-        >
+        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
             <div className="w-100" style={{ maxWidth: "400px" }}>
                 {children}
             </div>

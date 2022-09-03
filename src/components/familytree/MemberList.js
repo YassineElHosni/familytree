@@ -1,7 +1,7 @@
-import React, {useEffect, useState}  from 'react'
-import { database } from '../../firebase'
-import Member from './Member'
-import AddMemberButton from './AddMemberButton'
+import React, { useEffect, useState } from "react"
+import { database } from "../../firebase"
+import Member from "./Member"
+import AddMemberButton from "./AddMemberButton"
 
 // function useMembers(){
 //     const [members, setMembers] = useState([])
@@ -20,26 +20,28 @@ export default function MemberList() {
     const [members, setMembers] = useState([])
     // const [relationships, setRelationships] = useState([])
     // const members = useMembers()
-    function refactor(data){
-        return Object.entries(data)
-                .map(o => o = {
+    function refactor(data) {
+        return Object.entries(data).map(
+            (o) =>
+                (o = {
                     id: o[0],
-                    ...o[1]
+                    ...o[1],
                 })
+        )
     }
-    function mWithCh(m, rs){
-        return m.map(o=>{
-            let r = rs.find(b=>b.spouse.includes(o.id))
-            if(r) return {...o, children: r.children, spouse: r.spouse.find(s=>s!==o.id)}
-            else return o;
+    function mWithCh(m, rs) {
+        return m.map((o) => {
+            let r = rs.find((b) => b.spouse.includes(o.id))
+            if (r) return { ...o, children: r.children, spouse: r.spouse.find((s) => s !== o.id) }
+            else return o
         })
     }
     useEffect(() => {
-        database.root.on("value",qs=>{
+        database.root.on("value", (qs) => {
             let data = qs.val()
             let m = refactor(data.members)
             let r = refactor(data.relationships)
-            let newM = mWithCh(m,r)
+            let newM = mWithCh(m, r)
             setMembers(newM)
             console.log(newM)
         })
@@ -50,7 +52,7 @@ export default function MemberList() {
                 MEMBERS LIST
                 <AddMemberButton members={members} />
             </div>
-            {members ? members.map((o,i)=><Member member={o} members={members} key={o.id} />) : ""}
+            {members ? members.map((o, i) => <Member member={o} members={members} key={o.id} />) : ""}
         </div>
     )
 }
