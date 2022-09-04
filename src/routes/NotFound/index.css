@@ -1,0 +1,17 @@
+.not-found-container {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 100px);
+    flex-direction: column;
+    margin-top: 20%;
+    padding-inline: 1em;
+}
+
+.not-found-container h1 {
+    font-style: italic;
+    font-weight: 800;
+}
+
+.not-found-container h2 {
+    color: #878787;
+}

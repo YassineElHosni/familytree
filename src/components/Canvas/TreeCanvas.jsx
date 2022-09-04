@@ -1,4 +1,5 @@
 import React from "react"
+
 import { useCanvas } from "../../hooks/useCanvas.ts"
 
 export default function TreeCanvas() {

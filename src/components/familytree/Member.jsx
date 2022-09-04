@@ -1,9 +1,8 @@
-import { Button, Modal, Form } from "react-bootstrap"
 import React, { useState, useEffect } from "react"
+import { CloseCircleOutlined, EditOutlined } from "@ant-design/icons"
+
 import { database } from "../../firebase.ts"
 import SearchInput from "./SearchInput"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowCircleUp, faUserTimes, faArrowCircleDown, faUserEdit } from "@fortawesome/free-solid-svg-icons"
 
 export default function Member({ member, members }) {
     const [open, setOpen] = useState(false)
@@ -108,48 +107,48 @@ export default function Member({ member, members }) {
                     }`}
                 </div>
                 <div className="col">
-                    <Button onClick={openModal} variant="outline-primary" size="sm">
-                        <FontAwesomeIcon icon={faUserEdit} />
-                    </Button>
-                    <Button onClick={removeMember} variant="outline-danger" size="sm">
-                        <FontAwesomeIcon icon={faUserTimes} />
-                    </Button>
+                    <button onClick={openModal}>
+                        <EditOutlined />
+                    </button>
+                    <button onClick={removeMember}>
+                        <CloseCircleOutlined />
+                    </button>
                 </div>
             </div>
-            <Modal show={open} onHide={closeModal}>
-                <Form onSubmit={handleSubmit}>
-                    <Modal.Body>
-                        <Modal.Header>EDIT MEMBER</Modal.Header>
-                        <Form.Group>
-                            <Form.Label>Firstname</Form.Label>
-                            <Form.Control
+            {open && (
+                <form onSubmit={handleSubmit} className="edit-member-form">
+                    <div>
+                        <h2>EDIT MEMBER</h2>
+                        <div>
+                            <label>Firstname</label>
+                            <input
                                 type="text"
                                 required
                                 value={firstname}
                                 onChange={(e) => setFirstname(e.target.value)}
                             />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Lastname</Form.Label>
-                            <Form.Control
+                        </div>
+                        <div>
+                            <label>Lastname</label>
+                            <input
                                 type="text"
                                 required
                                 value={lastname}
                                 onChange={(e) => setLastname(e.target.value)}
                             />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Birthday</Form.Label>
-                            <Form.Control
+                        </div>
+                        <div>
+                            <label>Birthday</label>
+                            <input
                                 type="text"
                                 required
                                 value={birthday}
                                 onChange={(e) => setBirthday(e.target.value)}
                             />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Spouse</Form.Label>
-                            <Form.Control as="select" value={spouse} onChange={(e) => setSpouse(e.target.value)}>
+                        </div>
+                        <div>
+                            <label>Spouse</label>
+                            <select value={spouse} onChange={(e) => setSpouse(e.target.value)}>
                                 <option key={-1} value={-1}>
                                     - NONE -
                                 </option>
@@ -160,10 +159,10 @@ export default function Member({ member, members }) {
                                           </option>
                                       ))
                                     : ""}
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Kids</Form.Label>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Kids</label>
                             <div className="selectedKids">
                                 {selectedKids
                                     ? selectedKids.map((id) => {
@@ -171,7 +170,7 @@ export default function Member({ member, members }) {
                                           return (
                                               <div key={o.id} id={o.id} onClick={(e) => removeKid(e.target)}>
                                                   {o.firstname + " " + o.lastname + " " + o.birthday}
-                                                  <FontAwesomeIcon icon={faArrowCircleDown} />
+                                                  down
                                               </div>
                                           )
                                       })
@@ -191,23 +190,19 @@ export default function Member({ member, members }) {
                                               bg={o.picked ? "success" : "secondary"}
                                           >
                                               {o.firstname + " " + o.lastname + " " + o.birthday}
-                                              <FontAwesomeIcon icon={faArrowCircleUp} />
+                                              up
                                           </div>
                                       ))
                                     : ""}
                             </div>
-                        </Form.Group>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={closeModal}>
-                            Close
-                        </Button>
-                        <Button variant="success" type="submit">
-                            Update
-                        </Button>
-                    </Modal.Footer>
-                </Form>
-            </Modal>
+                        </div>
+                    </div>
+                    <div>
+                        <button onClick={closeModal}>Close</button>
+                        <button type="submit">Update</button>
+                    </div>
+                </form>
+            )}
         </>
     )
 }

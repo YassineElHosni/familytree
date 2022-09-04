@@ -1,9 +1,10 @@
 import firebase from "firebase/app"
 import "firebase/auth"
 import "firebase/database"
-import defaultTreeData from "./default-tree-data.json"
+
 import Member from "./models/Member"
 import Relationship from "./models/Relationship"
+import defaultTreeData from "./default-tree-data.json"
 
 const app = firebase.initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -24,7 +25,8 @@ export const database = {
     membersManager: {
         add: async (member: Member) => {
             console.log('members manager - add', member)
-            return await dbRoot.child("members").push(member)},
+            return await dbRoot.child("members").push(member)
+        },
         update: (member: Member) => {
             let { id, ...o } = member
             dbRoot.child("members").child(id).update(o)

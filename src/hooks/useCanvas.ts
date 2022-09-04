@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+
 import Coordinate from "../models/Coordinate"
 import Member from "../models/Member"
 import { MemberCoordinate } from "../models/MemberCoordinate"
