@@ -6,12 +6,12 @@ const AuthContext = React.createContext({
     currentUser: {},
     isLoggedIn: false,
     loading: true,
-    login: () => {},
-    signup: () => {},
-    logout: () => {},
-    resetPassword: () => {},
-    updateEmail: () => {},
-    updatePassword: () => {},
+    login: () => { },
+    signup: () => { },
+    logout: () => { },
+    resetPassword: () => { },
+    updateEmail: () => { },
+    updatePassword: () => { },
 })
 
 export function AuthContextProvider({ children }) {
@@ -79,4 +79,5 @@ export function AuthContextProvider({ children }) {
     )
 }
 
-export default useAuth = () => useContext(AuthContext)
+const useAuth = () => useContext(AuthContext)
+export default useAuth
