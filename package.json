@@ -3,13 +3,17 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@ant-design/icons": "^4.7.0",
-        "antd": "^4.22.8",
+        "@ant-design/icons": "^5.0.1",
+        "@types/node": "^18.16.3",
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.1",
+        "antd": "^5.4.6",
         "firebase": "^9.9.4",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.3.0",
-        "react-scripts": "^5.0.1"
+        "react-scripts": "^5.0.1",
+        "typescript": "^5.0.4"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -24,9 +28,9 @@
         "extends": "react-app"
     },
     "devDependencies": {
-        "eslint": "^6.8.0",
-        "eslint-config-prettier": "^8.5.0",
+        "eslint": "^8.39.0",
+        "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^4.2.1",
-        "prettier": "^2.7.1"
+        "prettier": "^2.8.8"
     }
 }
