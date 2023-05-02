@@ -51,6 +51,7 @@ export function AuthContextProvider({ children }) {
         // })
 
         // return unsubscribe
+        setIsLoading(false)
     }, [])
 
     useEffect(() => {

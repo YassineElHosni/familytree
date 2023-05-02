@@ -2,6 +2,11 @@
     "name": "family-tree",
     "version": "0.1.0",
     "private": true,
+    "main": "./src/index.tsx",
+    "author": {
+        "name": "EL HOSNI YASSINE",
+        "email": "hosni.yassine.yh@gmail.com"
+    },
     "dependencies": {
         "@ant-design/icons": "^5.0.1",
         "@types/node": "^18.16.3",
@@ -43,6 +48,14 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/YassineElHosni/family-tree.git"
+    },
+    "bugs": {
+        "url": "https://github.com/YassineElHosni/family-tree/issues"
+    },
+    "homepage": "https://github.com/YassineElHosni/family-tree#readme"
 }
 
