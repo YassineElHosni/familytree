@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { CloseCircleOutlined, EditOutlined } from "@ant-design/icons"
 
-import { database } from "../../firebase.ts"
+// import { database } from "../../firebase.ts"
 import SearchInput from "./SearchInput"
 
 export default function Member({ member, members }) {
@@ -44,34 +44,34 @@ export default function Member({ member, members }) {
     function handleSubmit(e) {
         e.preventDefault()
 
-        console.log(database)
+        // console.log(database)
 
-        database.membersManager.update({
-            id: member.id,
-            firstname: firstname,
-            lastname: lastname,
-            birthday: birthday,
-        })
-        database.relationshipsManager.getAll().then((rs) => {
-            // TODO: needs cleaning
-            let r = rs.filter((o) => o.spouse.includes(member.id))
-            console.log(r, spouse, selectedKids, member)
-            if (r.length && spouse === -1) {
-                database.relationshipsManager.remove()
-                return -1
-            } else if (member.spouse === -1 && spouse === -1) return 0
-            else if (member.spouse === -1 && spouse !== -1)
-                database.relationshipsManager.push({
-                    spouse: [spouse, member.id],
-                    children: selectedKids,
-                })
-            else if (member.spouse !== -1 && spouse !== -1)
-                database.relationshipsManager.update({
-                    id: r.id,
-                    spouse: [spouse, member.id],
-                    children: selectedKids,
-                })
-        })
+        // database.membersManager.update({
+        //     id: member.id,
+        //     firstname: firstname,
+        //     lastname: lastname,
+        //     birthday: birthday,
+        // })
+        // database.relationshipsManager.getAll().then((rs) => {
+        //     // TODO: needs cleaning
+        //     let r = rs.filter((o) => o.spouse.includes(member.id))
+        //     console.log(r, spouse, selectedKids, member)
+        //     if (r.length && spouse === -1) {
+        //         database.relationshipsManager.remove()
+        //         return -1
+        //     } else if (member.spouse === -1 && spouse === -1) return 0
+        //     else if (member.spouse === -1 && spouse !== -1)
+        //         database.relationshipsManager.push({
+        //             spouse: [spouse, member.id],
+        //             children: selectedKids,
+        //         })
+        //     else if (member.spouse !== -1 && spouse !== -1)
+        //         database.relationshipsManager.update({
+        //             id: r.id,
+        //             spouse: [spouse, member.id],
+        //             children: selectedKids,
+        //         })
+        // })
 
         setFirstname("")
         setLastname("")
@@ -85,7 +85,7 @@ export default function Member({ member, members }) {
         closeModal()
     }
     function removeMember() {
-        database.membersManager.remove(member.id)
+        // database.membersManager.remove(member.id)
     }
 
     useEffect(() => {

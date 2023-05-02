@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { PlusCircleOutlined } from "@ant-design/icons"
 
-import { database } from "../../firebase.ts"
+// import { database } from "../../firebase.ts"
 import SearchInput from "./SearchInput"
 
 export default function AddMemberButton({ members }) {
@@ -50,24 +50,24 @@ export default function AddMemberButton({ members }) {
     function handleSubmit(e) {
         e.preventDefault()
 
-        database.membersManager
-            .add({
-                firstname: firstname,
-                lastname: lastname,
-                birthday: birthday,
-            })
-            .then((mRef) => {
-                return mRef.key
-            })
-            .then((mId) => {
-                console.log(spouse, selectedKids, mId)
-                if (spouse !== -1) {
-                    database.relationshipsManager.push({
-                        spouse: [spouse, mId],
-                        children: selectedKids,
-                    })
-                }
-            })
+        // database.membersManager
+        //     .add({
+        //         firstname: firstname,
+        //         lastname: lastname,
+        //         birthday: birthday,
+        //     })
+        //     .then((mRef) => {
+        //         return mRef.key
+        //     })
+        //     .then((mId) => {
+        //         console.log(spouse, selectedKids, mId)
+        //         if (spouse !== -1) {
+        //             database.relationshipsManager.push({
+        //                 spouse: [spouse, mId],
+        //                 children: selectedKids,
+        //             })
+        //         }
+        //     })
         setFirstname("")
         setLastname("")
         setBirthday("")

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 
-import { auth } from "../firebase.ts"
+// import { auth } from "../firebase.ts"
 
 const AuthContext = React.createContext({
     currentUser: {},
@@ -21,19 +21,19 @@ export function AuthContextProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     function signup(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password)
+        // return auth.createUserWithEmailAndPassword(email, password)
     }
 
     function login(email, password) {
-        return auth.signInWithEmailAndPassword(email, password)
+        // return auth.signInWithEmailAndPassword(email, password)
     }
 
     function logout() {
-        return auth.signOut()
+        // return auth.signOut()
     }
 
     function resetPassword(email) {
-        return auth.sendPasswordResetEmail(email)
+        // return auth.sendPasswordResetEmail(email)
     }
 
     function updateEmail(email) {
@@ -45,12 +45,12 @@ export function AuthContextProvider({ children }) {
     }
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            setCurrentUser(user)
-            setIsLoading(false)
-        })
+        // const unsubscribe = auth.onAuthStateChanged((user) => {
+        //     setCurrentUser(user)
+        //     setIsLoading(false)
+        // })
 
-        return unsubscribe
+        // return unsubscribe
     }, [])
 
     useEffect(() => {

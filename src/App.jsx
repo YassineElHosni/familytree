@@ -20,22 +20,20 @@ function App() {
     }
 
     return (
-        <Router>
-            <Routes>
-                {/* Authentication */}
-                <Route path="/signup" element={Signup} />
-                <Route path="/login" element={Login} />
-                <Route path="/forgot-password" element={ForgotPassword} />
+        <Routes>
+            {/* Authentication */}
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
-                {/* Familytree */}
-                <Route element={PrivateRoute}>
-                    <Route path="/" element={Dashboard} />
-                    {/* Profile */}
-                    <Route path="/user" element={Profile} />
-                    <Route path="/update-profile" element={UpdateProfile} />
-                </Route>
-            </Routes>
-        </Router>
+            {/* Familytree */}
+            <Route element={<PrivateRoute />}>
+                <Route path="/" element={<Dashboard />} />
+                {/* Profile */}
+                <Route path="/user" element={<Profile />} />
+                <Route path="/update-profile" element={<UpdateProfile />} />
+            </Route>
+        </Routes>
     )
 }
 
