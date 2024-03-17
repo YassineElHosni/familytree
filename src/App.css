@@ -1,17 +1,41 @@
+:root {
+    --bg-c-dark: #242424;
+    --bg-c2-dark: #2d2d2d;
+    --c-dark: #c5c5c5;
+    --c2-dark: #495057;
+
+    --bg-c-light: #f5f5f5;
+    --bg-c2-light: #e6e6e6;
+    --c-light: #3a3a3a;
+    --c2-light: #b8c0c8;
+
+    /* USE LIGHT */
+    --bg-c: var(--bg-c-light);
+    --bg-c2: var(--bg-c2-light);
+    --c: var(--c-light);
+    --c2: var(--c2-light);
+
+    /* USE DARK */
+    /* --bg-c: var(--bg-c-dark);
+    --bg-c2: var(--bg-c2-dark);
+    --c: var(--c-dark);
+    --c2: var(--c2-dark); */
+}
+
 body {
-    background-color: #242424 !important;
-    color: #c5c5c5 !important;
+    background-color: var(--bg-c) !important;
+    color: var(--c) !important;
 }
 
 .card {
-    background-color: #2d2d2d !important;
-    color: #c5c5c5 !important;
+    background-color: var(--bg-c2) !important;
+    color: var(--c) !important;
     border-radius: 0.5rem !important;
 }
 
 .form-control {
-    background-color: #c5c5c5 !important;
-    color: #495057 !important;
+    background-color: var(--c) !important;
+    color: var(--c2) !important;
 }
 
 button {
@@ -19,7 +43,7 @@ button {
 }
 
 .modal-content {
-    background-color: #242424 !important;
+    background-color: var(--bg-c) !important;
 }
 
 .modal-header,

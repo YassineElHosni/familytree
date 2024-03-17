@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect, Dispatch, SetStateAction } from "react"
+import { Location } from "react-router-dom"
 
 import NotFound from "../routes/NotFound"
 
+type ErrorStateType = { type: number; location: Location } | undefined
+
 type ErrorContextType = {
-    error: { type: number; location: { pth: string } } | undefined
-    setError: Dispatch<SetStateAction<undefined>>
+    error: ErrorStateType
+    setError: Dispatch<SetStateAction<ErrorStateType>>
 }
 
 const ErrorContext = React.createContext<ErrorContextType>({ error: undefined, setError: () => {} })
@@ -14,7 +17,7 @@ type ErrorContextProviderProps = {
 }
 
 export default function ErrorContextProvider({ children }: ErrorContextProviderProps) {
-    const [error, setError] = useState()
+    const [error, setError] = useState<ErrorStateType>()
 
     useEffect(() => {
         const beforeunload_callback = () => setError(undefined)

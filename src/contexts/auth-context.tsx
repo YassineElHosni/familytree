@@ -3,16 +3,11 @@ import { useNavigate } from "react-router-dom"
 
 import * as AuthServices from "../services/auth.services"
 import { AuthContextType } from "../types/auth-context.types"
+import { UserType } from "../types/user.types"
 
 // import { auth } from "../firebase.ts"
 
-const AuthContext = React.createContext<AuthContextType>({
-    isLoggedIn: false,
-    isLoading: true,
-    login: () => {},
-    signup: () => {},
-    logout: () => {},
-})
+const AuthContext = React.createContext<AuthContextType>({} as AuthContextType)
 
 type AuthContextProviderProps = {
     children: React.ReactNode
@@ -23,7 +18,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     const [isLoading, setIsLoading] = useState(true)
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
+
+    const [user, setUser] = useState({} as UserType)
 
     useEffect(() => {
         setIsLoading(true)
@@ -74,6 +71,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             value={{
                 isLoggedIn,
                 isLoading,
+                user,
                 login,
                 signup,
                 logout,

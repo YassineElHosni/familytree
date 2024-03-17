@@ -7,7 +7,7 @@ export default function Dashboard() {
     const navigate = useNavigate()
 
     const [error, setError] = useState("")
-    const { currentUser, logout } = useAuth()
+    const { user, logout } = useAuth()
 
     async function handleLogout() {
         setError("")
@@ -25,15 +25,13 @@ export default function Dashboard() {
             <div>
                 <h2 className="text-center mb-4">Profile</h2>
                 {error && <div>{error}</div>}
-                <strong>Email:</strong> {currentUser.email}
+                <strong>Email:</strong> {user.email}
                 <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
                     Update Profile
                 </Link>
             </div>
             <div className="w-100 text-center mt-2">
-                <button variant="link" onClick={handleLogout}>
-                    Log Out
-                </button>
+                <button onClick={handleLogout}>Log Out</button>
             </div>
         </>
     )

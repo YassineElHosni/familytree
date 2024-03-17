@@ -9,6 +9,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
+        "dev-host": "vite --host",
         "build": "tsc && vite build",
         "lint": "tsc --noEmit && eslint src/**/*.ts{,x} --cache --max-warnings=0",
         "lint:fix": "eslint src/**/*.ts{,x} --fix",
@@ -18,11 +19,13 @@
         "@ant-design/icons": "^5.0.1",
         "antd": "^5.4.6",
         "axios": "^1.4.0",
+        "fabric": "^5.3.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.11.1"
     },
     "devDependencies": {
+        "@types/fabric": "^5.3.2",
         "@types/react": "^18.0.24",
         "@types/react-dom": "^18.0.8",
         "@typescript-eslint/eslint-plugin": "^5.13.0",

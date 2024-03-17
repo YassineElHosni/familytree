@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { notification, Form, Input, Checkbox, Button } from "antd"
+import { notification, Form, Input, Button } from "antd"
 
 import useAuth from "../../contexts/auth-context"
 import LoadingScreen from "../common/LoadingScreen"
 
-export default function Login() {
+export default function Signup() {
     const navigate = useNavigate()
 
     const authContext = useAuth()
@@ -16,8 +16,8 @@ export default function Login() {
         console.log("Success:", values)
         try {
             setIsLoading(true)
-            await authContext.login(values.email, values.password)
-            notification.success({ message: "Login successfully!" })
+            await authContext.signup(values.email, values.password, values.username)
+            notification.success({ message: "Sign up successfully!" })
             navigate("/")
         } catch {
             notification.error({ message: "Oops, an error occured!" })
@@ -30,9 +30,9 @@ export default function Login() {
     }
 
     return (
-        <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        <Form name="basic" onFinish={onFinish} onFinishFailed={onFinishFailed}>
             {isLoading && <LoadingScreen />}
-            <Form.Item label="Username" name="username" rules={[{ required: true, message: "Username required!" }]}>
+            <Form.Item label="Email" name="email" rules={[{ required: true, message: "Email required!" }]}>
                 <Input />
             </Form.Item>
 
@@ -40,8 +40,8 @@ export default function Login() {
                 <Input.Password />
             </Form.Item>
 
-            <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                <Checkbox>Remember me</Checkbox>
+            <Form.Item label="Username" name="username" rules={[{ required: true, message: "Username required!" }]}>
+                <Input />
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
