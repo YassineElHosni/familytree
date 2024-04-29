@@ -1,16 +1,20 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import HomePage from './components/HomePage'
+import { Routes, Route } from 'react-router-dom'
+
+import Home from './pages/Home'
+import Layout from './pages/Layout'
+import NoMatch from './pages/NoMatch'
 
 import './App.css'
 
 function App() {
     return (
-        <Router>
-            <Switch>
-                <Route path="/" component={HomePage} />
-            </Switch>
-        </Router>
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="*" element={<NoMatch />} />
+            </Route>
+        </Routes>
     )
 }
 
