@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { sample_data } from '../../sample_data'
+import PersonForm from '../../components/PersonForm'
 
 export default function Home() {
     const [persons] = useState(sample_data.persons)
@@ -20,6 +21,7 @@ export default function Home() {
                             </li>
                         ))}
                     </ul>
+                    <PersonForm values={{}} onChange={values => console.log('values', values)} />
                 </div>
                 <div>
                     <h4>Partnerships:</h4>
