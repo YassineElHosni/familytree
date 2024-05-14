@@ -5,6 +5,7 @@ export const sample_data = {
             firstName: 'Abdelaziz',
             lastName: 'EL HOSNI',
             gender: 'MALE',
+            mother: '0x1a519f61fe',
             partnerships: [
                 {
                     uid: '0x1a519f61fa',
@@ -53,18 +54,24 @@ export const sample_data = {
             firstName: 'Yassine',
             lastName: 'EL HOSNI',
             gender: 'MALE',
+            father: '0x1a519f61f8',
+            mother: '0x1a519f61f9',
         },
         {
             uid: '0x1a519f61fc',
             firstName: 'Hamza',
             lastName: 'EL HOSNI',
             gender: 'MALE',
+            father: '0x1a519f61f8',
+            mother: '0x1a519f61f9',
         },
         {
             uid: '0x1a519f61fd',
             firstName: 'Zakariya',
             lastName: 'EL HOSNI',
             gender: 'MALE',
+            father: '0x1a519f61f8',
+            mother: '0x1a519f61f9',
         },
         {
             uid: '0x1a519f61fe',
