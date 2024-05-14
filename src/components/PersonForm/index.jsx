@@ -3,14 +3,24 @@ import { Form, Input, Modal, Select } from 'antd'
 
 const GENDER_OPTIONS = ['MALE', 'FEMALE']
 
-export default function PersonForm({ values, onSave, onCancel, persons }) {
+export default function PersonForm({ values, onSave, onCancel, persons, isEdit }) {
     const [form] = Form.useForm()
 
     const gender = Form.useWatch('gender', form)
+    const partner = Form.useWatch('partner', form)
 
     return (
-        <Modal open={true} onOk={() => form.submit()} onCancel={onCancel} okText="Save">
+        <Modal
+            open={true}
+            onOk={() => form.submit()}
+            onCancel={onCancel}
+            okText="Save"
+            title={isEdit ? 'Edit person' : 'Create a person'}
+        >
             <Form form={form} initialValues={values} onFinish={onSave} layout="vertical">
+                <Form.Item hidden name="uid">
+                    <Input />
+                </Form.Item>
                 <Form.Item
                     label="First name"
                     name="firstName"
@@ -21,7 +31,7 @@ export default function PersonForm({ values, onSave, onCancel, persons }) {
                         },
                     ]}
                 >
-                    <Input />
+                    <Input placeholder="Set first name" />
                 </Form.Item>
                 <Form.Item
                     label="Last name (family name)"
@@ -33,7 +43,7 @@ export default function PersonForm({ values, onSave, onCancel, persons }) {
                         },
                     ]}
                 >
-                    <Input />
+                    <Input placeholder="Set last name" />
                 </Form.Item>
                 <Form.Item
                     label="Gender"
@@ -45,19 +55,18 @@ export default function PersonForm({ values, onSave, onCancel, persons }) {
                         },
                     ]}
                 >
-                    <Select options={GENDER_OPTIONS.map(o => ({ label: o, value: o }))} />
+                    <Select
+                        disabled={!!partner}
+                        options={GENDER_OPTIONS.map(o => ({ label: o, value: o }))}
+                        placeholder="Select gender"
+                    />
                 </Form.Item>
                 <Form.Item
                     label={`Partner ${gender ? `(${gender === 'MALE' ? 'Wife' : 'Husband'})` : ''}`}
                     name="partner"
-                    rules={[
-                        {
-                            required: true,
-                            message: '${label} required!',
-                        },
-                    ]}
                 >
                     <Select
+                        allowClear={!isEdit}
                         options={
                             !gender
                                 ? []
@@ -65,6 +74,7 @@ export default function PersonForm({ values, onSave, onCancel, persons }) {
                                       .filter(o => o.gender !== gender)
                                       .map(o => ({ label: `${o.firstName} ${o.lastName}`, value: o.uid }))
                         }
+                        placeholder={!gender ? 'Must first select a gender !' : 'Select partner'}
                     />
                 </Form.Item>
             </Form>
