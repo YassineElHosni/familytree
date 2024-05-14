@@ -7,70 +7,48 @@ import PersonForm from '../../components/PersonForm'
 import './index.css'
 
 export default function Home() {
-    const [persons, setPersons] = useState(sample_data.persons)
-    const [partnerships, setPartnerships] = useState(sample_data.partnerships)
+    const [persons, setPersons] = useState(sample_data)
 
     const [addPersonOpen, setAddPersonOpen] = useState(false)
     const [personToEdit, setPersonToEdit] = useState()
 
-    const getPersonName = useCallback(
-        personId => {
-            const found = persons.find(o => o.uid === personId)
-            if (!found) {
-                return 'undefined'
-            }
-            return `${found.firstName} ${found.lastName}`
-        },
-        [persons],
-    )
+    const getPartnerIdByPartner = useCallback(person => {
+        const partnerToFindProp = person.gender === 'MALE' ? 'partner2' : 'partner1'
+        const partnerId = person.partnerships?.[0]?.[partnerToFindProp]
 
-    const getChildrenNames = useCallback(
-        partnershipId => {
-            console.log(partnershipId, { partnerships, persons })
-            const found = partnerships.find(o => o.uid === partnershipId)
-
-            const children = persons.filter(
-                o =>
-                    (o.father && [found.partner1, found.partner2].includes(o.father)) ||
-                    (o.mother && [found.partner1, found.partner2].includes(o.mother)),
-            )
-
-            return children.map(o => `${o.firstName} ${o.lastName}`).join(',')
-        },
-        [partnerships, persons],
-    )
-
-    const getPartnerIdByPartner = useCallback(
-        person => {
-            const partnerToFindWithProp = person.gender === 'MALE' ? 'partner1' : 'partner2'
-            const partnerToFindProp = person.gender === 'MALE' ? 'partner2' : 'partner1'
-            const found = partnerships.find(o => o[partnerToFindWithProp] === person.uid)
-            if (!found) {
-                return
-            }
-            return found[partnerToFindProp]
-        },
-        [partnerships],
-    )
+        return partnerId ? [partnerId] : undefined
+    }, [])
 
     const handleAddPersonOnSave = values => {
         console.log('values', values)
         setAddPersonOpen(false)
 
-        const newPersonId = new Date().toISOString()
+        let newPerson = { ...values, partner: undefined, uid: new Date().toISOString() }
+
         if (values.partner) {
-            let partner1 = newPersonId
+            let partner1 = newPerson.uid
             let partner2 = values.partner
 
             if (values.gender === 'FEMALE') {
-                partner2 = newPersonId
+                partner2 = newPerson.uid
                 partner1 = values.partner
             }
 
-            setPartnerships(previous => [...previous, { uid: new Date().toISOString(), partner1, partner2 }])
-        }
+            const newPartnership = { uid: new Date().toISOString(), partner1, partner2 }
 
-        const newPerson = { ...values, partner: undefined, uid: newPersonId }
+            newPerson.partnerships = [newPartnership]
+
+            setPersons(previous =>
+                previous.map(o =>
+                    o.uid === values.partner
+                        ? {
+                              ...o,
+                              partnerships: [newPartnership],
+                          }
+                        : o,
+                ),
+            )
+        }
 
         setPersons(previous => [...previous, newPerson])
     }
@@ -81,38 +59,137 @@ export default function Home() {
 
     const handleEditPersonOnSave = values => {
         console.log('values', values)
-        setPersons(previous => previous.map(o => (o.uid === values.uid ? { ...values, partner: undefined } : o)))
+        const personBeforeEdit = persons.find(o => o.uid === values.uid)
+        const previousPartnerId = getPartnerIdByPartner(personBeforeEdit)[0]
 
-        const partnerFound = getPartnerIdByPartner(values)
-debugger
-        if (partnerFound !== values.partner) {
-            if (partnerFound) {
-                const partnerToFindProp = values.gender === 'MALE' ? 'partner2' : 'partner1'
-                setPartnerships(previous =>
+        if (values.partner !== previousPartnerId) {
+            // remove
+            if (!values.partner && previousPartnerId) {
+                // for edited
+                setPersons(previous =>
                     previous.map(o =>
-                        o[partnerToFindProp] === partnerFound ? { ...o, [partnerFound]: values.partner } : o,
+                        o.uid === values.uid
+                            ? {
+                                  ...o,
+                                  ...values,
+                                  partner: undefined,
+                                  partnerships: o.partnerships.filter(b => b.uid === previousPartnerId),
+                              }
+                            : o,
                     ),
                 )
-            } else {
-                const partnerToFindWithProp = values.gender === 'MALE' ? 'partner1' : 'partner2'
-                const halfPartnership = partnerships.find(o => o[partnerToFindWithProp] === values.uid)
+                // for partner
+                setPersons(previous =>
+                    previous.map(o =>
+                        o.uid === previousPartnerId
+                            ? {
+                                  ...o,
+                                  partnerships: o.partnerships.filter(b => b.uid === values.uid),
+                              }
+                            : o,
+                    ),
+                )
+            }
 
-                let partner1 = values.uid
-                let partner2 = values.partner
+            let partner1 = values.uid
+            let partner2 = values.partner
 
-                if (values.gender === 'FEMALE') {
-                    partner2 = values.uid
-                    partner1 = values.partner
-                }
+            if (values.gender === 'FEMALE') {
+                partner2 = values.uid
+                partner1 = values.partner
+            }
+            const newPartnership = { uid: new Date().toISOString(), partner1, partner2 }
 
-                if (halfPartnership) {
-                    setPartnerships(previous =>
-                        previous.map(o => (o.uid === halfPartnership.uid ? { ...o, partner1, partner2 } : o)),
+            // add
+            if (values.partner && !previousPartnerId) {
+                // for edited
+                setPersons(previous =>
+                    previous.map(o =>
+                        o.uid === values.uid
+                            ? {
+                                  ...o,
+                                  ...values,
+                                  partner: undefined,
+                                  partnerships: [newPartnership],
+                              }
+                            : o,
+                    ),
+                )
+                // for partner
+                setPersons(previous =>
+                    previous.map(o =>
+                        o.uid === previousPartnerId
+                            ? {
+                                  ...o,
+                                  partnerships: [newPartnership],
+                              }
+                            : o,
+                    ),
+                )
+            }
+            // change
+            if (values.partner && previousPartnerId) {
+                // for edited
+                setPersons(previous =>
+                    previous.map(o =>
+                        o.uid === values.uid
+                            ? {
+                                  ...o,
+                                  ...values,
+                                  partner: undefined,
+                                  partnerships: [newPartnership],
+                              }
+                            : o,
+                    ),
+                )
+                // for previous partner
+                setPersons(previous =>
+                    previous.map(o =>
+                        o.uid === previousPartnerId
+                            ? {
+                                  ...o,
+                                  partnerships: [],
+                              }
+                            : o,
+                    ),
+                )
+                // for partner
+                setPersons(previous =>
+                    previous.map(o =>
+                        o.uid === values.partner
+                            ? {
+                                  ...o,
+                                  partnerships: [newPartnership],
+                              }
+                            : o,
+                    ),
+                )
+                if (personBeforeEdit.partnerships[0].children?.length > 0) {
+                    // remove any children connection
+                    setPersons(previous =>
+                        previous.map(o =>
+                            o.father === partner1 || o.mother === partner2
+                                ? {
+                                      ...o,
+                                      father: undefined,
+                                      mother: undefined,
+                                  }
+                                : o,
+                        ),
                     )
-                } else {
-                    setPartnerships(previous => [...previous, { uid: new Date().toISOString(), partner1, partner2 }])
                 }
             }
+        } else {
+            setPersons(previous =>
+                previous.map(o =>
+                    o.uid === values.uid
+                        ? {
+                              ...o,
+                              ...values,
+                          }
+                        : o,
+                ),
+            )
         }
     }
 
@@ -162,19 +239,6 @@ debugger
                             persons={persons}
                         />
                     )}
-                </div>
-                <div>
-                    <h4>Partnerships:</h4>
-                    <ul>
-                        {partnerships.map(o => (
-                            <li key={o.uid} className="family-tree-grid">
-                                <span>{o.uid}</span>
-                                <span>{getPersonName(o.partner1)}</span>
-                                <span>{getPersonName(o.partner2)}</span>
-                                <span>{getChildrenNames(o.uid)}</span>
-                            </li>
-                        ))}
-                    </ul>
                 </div>
             </div>
         </div>
