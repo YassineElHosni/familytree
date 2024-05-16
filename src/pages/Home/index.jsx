@@ -2,43 +2,43 @@ import React, { useCallback, useState } from 'react'
 import { Button } from 'antd'
 
 import { sample_data } from '../../sample_data'
-import PersonForm from '../../components/PersonForm'
+import MemberForm from '../../components/MemberForm'
 
 import './index.css'
 
 export default function Home() {
-    const [persons, setPersons] = useState(sample_data)
+    const [members, setMembers] = useState(sample_data)
 
-    const [addPersonOpen, setAddPersonOpen] = useState(false)
-    const [personToEdit, setPersonToEdit] = useState()
+    const [addMemberOpen, setAddMemberOpen] = useState(false)
+    const [memberToEdit, setMemberToEdit] = useState()
 
-    const getPartnerIdByPartner = useCallback(person => {
-        const partnerToFindProp = person.gender === 'MALE' ? 'partner2' : 'partner1'
-        const partnerId = person.partnerships?.[0]?.[partnerToFindProp]
+    const getPartnerIdByPartner = useCallback(member => {
+        const partnerToFindProp = member.gender === 'MALE' ? 'partner2' : 'partner1'
+        const partnerId = member.partnerships?.[0]?.[partnerToFindProp]
 
         return partnerId ? [partnerId] : undefined
     }, [])
 
-    const handleAddPersonOnSave = values => {
+    const handleAddMemberOnSave = values => {
         console.log('values', values)
-        setAddPersonOpen(false)
+        setAddMemberOpen(false)
 
-        let newPerson = { ...values, partner: undefined, uid: new Date().toISOString() }
+        let newMember = { ...values, partner: undefined, uid: new Date().toISOString() }
 
         if (values.partner) {
-            let partner1 = newPerson.uid
+            let partner1 = newMember.uid
             let partner2 = values.partner
 
             if (values.gender === 'FEMALE') {
-                partner2 = newPerson.uid
+                partner2 = newMember.uid
                 partner1 = values.partner
             }
 
             const newPartnership = { uid: new Date().toISOString(), partner1, partner2 }
 
-            newPerson.partnerships = [newPartnership]
+            newMember.partnerships = [newPartnership]
 
-            setPersons(previous =>
+            setMembers(previous =>
                 previous.map(o =>
                     o.uid === values.partner
                         ? {
@@ -50,23 +50,23 @@ export default function Home() {
             )
         }
 
-        setPersons(previous => [...previous, newPerson])
+        setMembers(previous => [...previous, newMember])
     }
 
-    const handleAddPersonOnCancel = () => {
-        setAddPersonOpen(false)
+    const handleAddMemberOnCancel = () => {
+        setAddMemberOpen(false)
     }
 
-    const handleEditPersonOnSave = values => {
+    const handleEditMemberOnSave = values => {
         console.log('values', values)
-        const personBeforeEdit = persons.find(o => o.uid === values.uid)
-        const previousPartnerId = getPartnerIdByPartner(personBeforeEdit)[0]
+        const memberBeforeEdit = members.find(o => o.uid === values.uid)
+        const previousPartnerId = getPartnerIdByPartner(memberBeforeEdit)[0]
 
         if (values.partner !== previousPartnerId) {
             // remove
             if (!values.partner && previousPartnerId) {
                 // for edited
-                setPersons(previous =>
+                setMembers(previous =>
                     previous.map(o =>
                         o.uid === values.uid
                             ? {
@@ -79,7 +79,7 @@ export default function Home() {
                     ),
                 )
                 // for partner
-                setPersons(previous =>
+                setMembers(previous =>
                     previous.map(o =>
                         o.uid === previousPartnerId
                             ? {
@@ -103,7 +103,7 @@ export default function Home() {
             // add
             if (values.partner && !previousPartnerId) {
                 // for edited
-                setPersons(previous =>
+                setMembers(previous =>
                     previous.map(o =>
                         o.uid === values.uid
                             ? {
@@ -116,7 +116,7 @@ export default function Home() {
                     ),
                 )
                 // for partner
-                setPersons(previous =>
+                setMembers(previous =>
                     previous.map(o =>
                         o.uid === previousPartnerId
                             ? {
@@ -130,7 +130,7 @@ export default function Home() {
             // change
             if (values.partner && previousPartnerId) {
                 // for edited
-                setPersons(previous =>
+                setMembers(previous =>
                     previous.map(o =>
                         o.uid === values.uid
                             ? {
@@ -143,7 +143,7 @@ export default function Home() {
                     ),
                 )
                 // for previous partner
-                setPersons(previous =>
+                setMembers(previous =>
                     previous.map(o =>
                         o.uid === previousPartnerId
                             ? {
@@ -154,7 +154,7 @@ export default function Home() {
                     ),
                 )
                 // for partner
-                setPersons(previous =>
+                setMembers(previous =>
                     previous.map(o =>
                         o.uid === values.partner
                             ? {
@@ -164,9 +164,9 @@ export default function Home() {
                             : o,
                     ),
                 )
-                if (personBeforeEdit.partnerships[0].children?.length > 0) {
+                if (memberBeforeEdit.partnerships[0].children?.length > 0) {
                     // remove any children connection
-                    setPersons(previous =>
+                    setMembers(previous =>
                         previous.map(o =>
                             o.father === partner1 || o.mother === partner2
                                 ? {
@@ -180,7 +180,7 @@ export default function Home() {
                 }
             }
         } else {
-            setPersons(previous =>
+            setMembers(previous =>
                 previous.map(o =>
                     o.uid === values.uid
                         ? {
@@ -193,8 +193,8 @@ export default function Home() {
         }
     }
 
-    const handleEditPersonOnCancel = () => {
-        setPersonToEdit()
+    const handleEditMemberOnCancel = () => {
+        setMemberToEdit()
     }
 
     return (
@@ -205,7 +205,7 @@ export default function Home() {
                 <div>
                     <h4>People:</h4>
                     <ul>
-                        {persons.map(o => (
+                        {members.map(o => (
                             <li key={o.uid} className="family-tree-grid">
                                 <span>{o.uid} </span>
                                 <span>
@@ -213,7 +213,7 @@ export default function Home() {
                                 </span>
                                 <span>
                                     <Button
-                                        onClick={() => setPersonToEdit({ ...o, partner: getPartnerIdByPartner(o) })}
+                                        onClick={() => setMemberToEdit({ ...o, partner: getPartnerIdByPartner(o) })}
                                     >
                                         Edit
                                     </Button>
@@ -221,22 +221,22 @@ export default function Home() {
                             </li>
                         ))}
                     </ul>
-                    {personToEdit && (
-                        <PersonForm
-                            values={personToEdit}
-                            onSave={handleEditPersonOnSave}
-                            onCancel={handleEditPersonOnCancel}
-                            persons={persons}
+                    {memberToEdit && (
+                        <MemberForm
+                            values={memberToEdit}
+                            onSave={handleEditMemberOnSave}
+                            onCancel={handleEditMemberOnCancel}
+                            members={members}
                             isEdit
                         />
                     )}
-                    <Button onClick={() => setAddPersonOpen(true)}>Add new person</Button>
-                    {addPersonOpen && (
-                        <PersonForm
+                    <Button onClick={() => setAddMemberOpen(true)}>Add new member</Button>
+                    {addMemberOpen && (
+                        <MemberForm
                             values={{}}
-                            onSave={handleAddPersonOnSave}
-                            onCancel={handleAddPersonOnCancel}
-                            persons={persons}
+                            onSave={handleAddMemberOnSave}
+                            onCancel={handleAddMemberOnCancel}
+                            members={members}
                         />
                     )}
                 </div>

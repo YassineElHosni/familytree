@@ -3,7 +3,7 @@ import { Form, Input, Modal, Select } from 'antd'
 
 const GENDER_OPTIONS = ['MALE', 'FEMALE']
 
-export default function PersonForm({ values, onSave, onCancel, persons, isEdit }) {
+export default function MemberForm({ values, onSave, onCancel, members, isEdit }) {
     const [form] = Form.useForm()
 
     const gender = Form.useWatch('gender', form)
@@ -15,7 +15,7 @@ export default function PersonForm({ values, onSave, onCancel, persons, isEdit }
             onOk={() => form.submit()}
             onCancel={onCancel}
             okText="Save"
-            title={isEdit ? 'Edit person' : 'Create a person'}
+            title={isEdit ? 'Edit member' : 'Create a member'}
         >
             <Form form={form} initialValues={values} onFinish={onSave} layout="vertical">
                 <Form.Item hidden name="uid">
@@ -70,7 +70,7 @@ export default function PersonForm({ values, onSave, onCancel, persons, isEdit }
                         options={
                             !gender
                                 ? []
-                                : persons
+                                : members
                                       .filter(o => o.gender !== gender)
                                       .map(o => ({ label: `${o.firstName} ${o.lastName}`, value: o.uid }))
                         }
