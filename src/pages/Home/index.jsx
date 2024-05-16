@@ -14,7 +14,7 @@ export default function Home() {
 
     const getPartnerIdByPartner = useCallback(member => {
         const partnerToFindProp = member.gender === 'MALE' ? 'partner2' : 'partner1'
-        const partnerId = member.partnerships?.[0]?.[partnerToFindProp]
+        const partnerId = member.relationships?.[0]?.[partnerToFindProp]
 
         return partnerId ? [partnerId] : undefined
     }, [])
@@ -34,16 +34,16 @@ export default function Home() {
                 partner1 = values.partner
             }
 
-            const newPartnership = { uid: new Date().toISOString(), partner1, partner2 }
+            const newRelationship = { uid: new Date().toISOString(), partner1, partner2 }
 
-            newMember.partnerships = [newPartnership]
+            newMember.relationships = [newRelationship]
 
             setMembers(previous =>
                 previous.map(o =>
                     o.uid === values.partner
                         ? {
                               ...o,
-                              partnerships: [newPartnership],
+                              relationships: [newRelationship],
                           }
                         : o,
                 ),
@@ -73,7 +73,7 @@ export default function Home() {
                                   ...o,
                                   ...values,
                                   partner: undefined,
-                                  partnerships: o.partnerships.filter(b => b.uid === previousPartnerId),
+                                  relationships: o.relationships.filter(b => b.uid === previousPartnerId),
                               }
                             : o,
                     ),
@@ -84,7 +84,7 @@ export default function Home() {
                         o.uid === previousPartnerId
                             ? {
                                   ...o,
-                                  partnerships: o.partnerships.filter(b => b.uid === values.uid),
+                                  relationships: o.relationships.filter(b => b.uid === values.uid),
                               }
                             : o,
                     ),
@@ -98,7 +98,7 @@ export default function Home() {
                 partner2 = values.uid
                 partner1 = values.partner
             }
-            const newPartnership = { uid: new Date().toISOString(), partner1, partner2 }
+            const newRelationship = { uid: new Date().toISOString(), partner1, partner2 }
 
             // add
             if (values.partner && !previousPartnerId) {
@@ -110,7 +110,7 @@ export default function Home() {
                                   ...o,
                                   ...values,
                                   partner: undefined,
-                                  partnerships: [newPartnership],
+                                  relationships: [newRelationship],
                               }
                             : o,
                     ),
@@ -121,7 +121,7 @@ export default function Home() {
                         o.uid === previousPartnerId
                             ? {
                                   ...o,
-                                  partnerships: [newPartnership],
+                                  relationships: [newRelationship],
                               }
                             : o,
                     ),
@@ -137,7 +137,7 @@ export default function Home() {
                                   ...o,
                                   ...values,
                                   partner: undefined,
-                                  partnerships: [newPartnership],
+                                  relationships: [newRelationship],
                               }
                             : o,
                     ),
@@ -148,7 +148,7 @@ export default function Home() {
                         o.uid === previousPartnerId
                             ? {
                                   ...o,
-                                  partnerships: [],
+                                  relationships: [],
                               }
                             : o,
                     ),
@@ -159,12 +159,12 @@ export default function Home() {
                         o.uid === values.partner
                             ? {
                                   ...o,
-                                  partnerships: [newPartnership],
+                                  relationships: [newRelationship],
                               }
                             : o,
                     ),
                 )
-                if (memberBeforeEdit.partnerships[0].children?.length > 0) {
+                if (memberBeforeEdit.relationships[0].children?.length > 0) {
                     // remove any children connection
                     setMembers(previous =>
                         previous.map(o =>

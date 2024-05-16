@@ -5,7 +5,7 @@ export const sample_data = [
         lastName: 'EL HOSNI',
         gender: 'MALE',
         mother: '0x1a519f61fe',
-        partnerships: [
+        relationships: [
             {
                 uid: '0x1a519f61fa',
                 partner1: '0x1a519f61f8',
@@ -29,7 +29,7 @@ export const sample_data = [
         firstName: 'Widad',
         lastName: 'DOUGHAILI',
         gender: 'FEMALE',
-        partnerships: [
+        relationships: [
             {
                 uid: '0x1a519f61fa',
                 partner1: '0x1a519f61f8',
@@ -77,7 +77,7 @@ export const sample_data = [
         firstName: 'Lakbira',
         lastName: 'BEN ACHIR',
         gender: 'FEMALE',
-        partnerships: [
+        relationships: [
             {
                 uid: '0x1a519f61ff',
                 partner2: '0x1a519f61fe',
