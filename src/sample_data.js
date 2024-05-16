@@ -8,8 +8,8 @@ export const sample_data = [
         relationships: [
             {
                 uid: '0x1a519f61fa',
-                partner1: '0x1a519f61f8',
-                partner2: '0x1a519f61f9',
+                husband: '0x1a519f61f8',
+                wife: '0x1a519f61f9',
                 children: [
                     {
                         uid: '0x1a519f61fb',
@@ -32,8 +32,8 @@ export const sample_data = [
         relationships: [
             {
                 uid: '0x1a519f61fa',
-                partner1: '0x1a519f61f8',
-                partner2: '0x1a519f61f9',
+                husband: '0x1a519f61f8',
+                wife: '0x1a519f61f9',
                 children: [
                     {
                         uid: '0x1a519f61fb',
@@ -80,7 +80,7 @@ export const sample_data = [
         relationships: [
             {
                 uid: '0x1a519f61ff',
-                partner2: '0x1a519f61fe',
+                wife: '0x1a519f61fe',
                 children: [
                     {
                         uid: '0x1a519f61f8',

@@ -13,7 +13,7 @@ export default function Home() {
     const [memberToEdit, setMemberToEdit] = useState()
 
     const getPartnerIdByPartner = useCallback(member => {
-        const partnerToFindProp = member.gender === 'MALE' ? 'partner2' : 'partner1'
+        const partnerToFindProp = member.gender === 'MALE' ? 'wife' : 'husband'
         const partnerId = member.relationships?.[0]?.[partnerToFindProp]
 
         return partnerId ? [partnerId] : undefined
@@ -26,15 +26,15 @@ export default function Home() {
         let newMember = { ...values, partner: undefined, uid: new Date().toISOString() }
 
         if (values.partner) {
-            let partner1 = newMember.uid
-            let partner2 = values.partner
+            let husband = newMember.uid
+            let wife = values.partner
 
             if (values.gender === 'FEMALE') {
-                partner2 = newMember.uid
-                partner1 = values.partner
+                wife = newMember.uid
+                husband = values.partner
             }
 
-            const newRelationship = { uid: new Date().toISOString(), partner1, partner2 }
+            const newRelationship = { uid: new Date().toISOString(), husband, wife }
 
             newMember.relationships = [newRelationship]
 
@@ -91,14 +91,14 @@ export default function Home() {
                 )
             }
 
-            let partner1 = values.uid
-            let partner2 = values.partner
+            let husband = values.uid
+            let wife = values.partner
 
             if (values.gender === 'FEMALE') {
-                partner2 = values.uid
-                partner1 = values.partner
+                wife = values.uid
+                husband = values.partner
             }
-            const newRelationship = { uid: new Date().toISOString(), partner1, partner2 }
+            const newRelationship = { uid: new Date().toISOString(), husband, wife }
 
             // add
             if (values.partner && !previousPartnerId) {
@@ -168,7 +168,7 @@ export default function Home() {
                     // remove any children connection
                     setMembers(previous =>
                         previous.map(o =>
-                            o.father === partner1 || o.mother === partner2
+                            o.father === husband || o.mother === wife
                                 ? {
                                       ...o,
                                       father: undefined,
