@@ -168,11 +168,10 @@ export default function Home() {
                     // remove any children connection
                     setMembers(previous =>
                         previous.map(o =>
-                            o.father === husband || o.mother === wife
+                            o.parentsRelationship
                                 ? {
                                       ...o,
-                                      father: undefined,
-                                      mother: undefined,
+                                      parentsRelationship: undefined,
                                   }
                                 : o,
                         ),
