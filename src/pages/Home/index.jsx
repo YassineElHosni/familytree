@@ -1,16 +1,29 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from 'antd'
 
-import { sample_data } from '../../sample_data'
 import MemberForm from '../../components/MemberForm'
+import * as memberServices from '../../services/member.services'
 
 import './index.css'
 
 export default function Home() {
-    const [members, setMembers] = useState(sample_data)
+    const [members, setMembers] = useState([])
 
     const [addMemberOpen, setAddMemberOpen] = useState(false)
     const [memberToEdit, setMemberToEdit] = useState()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await memberServices.getAll()
+
+                setMembers(response.data)
+            } catch (error) {
+                console.error('/fetchData - error', error)
+            }
+        }
+        fetchData()
+    }, [])
 
     const getPartnerIdByPartner = useCallback(member => {
         const partnerToFindProp = member.gender === 'MALE' ? 'wife' : 'husband'
@@ -19,11 +32,15 @@ export default function Home() {
         return partnerId ? [partnerId] : undefined
     }, [])
 
-    const handleAddMemberOnSave = values => {
+    const handleAddMemberOnSave = async values => {
         console.log('values', values)
         setAddMemberOpen(false)
 
-        let newMember = { ...values, partner: undefined, uid: new Date().toISOString() }
+        const response = await memberServices.create(values)
+
+        console.log('create - response', response)
+
+        let newMember = { ...values, partner: undefined, uid: response.data.id }
 
         if (values.partner) {
             let husband = newMember.uid
@@ -57,10 +74,13 @@ export default function Home() {
         setAddMemberOpen(false)
     }
 
-    const handleEditMemberOnSave = values => {
+    const handleEditMemberOnSave = async values => {
         console.log('values', values)
+        const response = await memberServices.edit(values)
+
+        console.log('edit - response', response)
         const memberBeforeEdit = members.find(o => o.uid === values.uid)
-        const previousPartnerId = getPartnerIdByPartner(memberBeforeEdit)[0]
+        const previousPartnerId = getPartnerIdByPartner(memberBeforeEdit)?.[0]
 
         if (values.partner !== previousPartnerId) {
             // remove
